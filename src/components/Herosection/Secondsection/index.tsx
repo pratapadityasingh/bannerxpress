@@ -25,29 +25,30 @@ const Secondsection = () => {
             variants={fadeInUp}
           >
             <div className="space-y-4">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#000]">
                 Advertise Your Business with Impact
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 md:text-xl">
+              <p className="text-gray-500 dark:text-[#343434] md:text-xl">
                 Transform blank walls into powerful marketing tools. Reach your
                 target audience with eye-catching banners in prime locations.
               </p>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <CheckCircle className="h-5 w-5 text-[#03A9AC] mr-2" />
                   <span>High-visibility locations</span>
                 </li>
                 <li className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <CheckCircle className="h-5 w-5 text-[#03A9AC] mr-2" />
                   <span>Customizable sizes and durations</span>
                 </li>
                 <li className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <CheckCircle className="h-5 w-5 text-[#03A9AC] mr-2" />
                   <span>Cost-effective advertising solution</span>
                 </li>
               </ul>
               <Link href="/create-camp">
-                <Button  className="text-[#03A9AC] font-bold my-2"> <CircleArrowUpRight className=" h-8 w-8" />Your Ad Campaign</Button>
+                <Button  className="text-[#03A9AC] font-bold my-2 underline"> <CircleArrowUpRight className=" h-6 w-6" />
+                  <span className="text-[#000] font-bold text-base ml-2">Your Ad Campaign</span></Button>
               </Link>
             </div>
             <div className="relative h-[355px] w-full rounded overflow-hidden">
@@ -71,8 +72,8 @@ const Secondsection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <h3 className="text-white text-xl font-bold">Your Ad Here</h3>
-                <p className="text-gray-300">Prime wall space available now</p>
+                <h3 className="text-[#fff] text-xl font-bold">Your Ad Here</h3>
+                <p className="text-[#fff]">Prime wall space available now</p>
               </motion.div>
             </div>
           </motion.div>

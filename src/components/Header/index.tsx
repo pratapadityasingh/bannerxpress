@@ -26,31 +26,31 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <section className="border-b">
+      <section className="border-b ">
         <div className=" container mx-auto">
           <header className="flex items-center  relative py-[10px] md:px-0 px-5">
             <Link className="flex items-center justify-center" href="/">
-              <LayoutTemplate className="h-6 w-6 mr-2" />
-              <span className="font-bold text-lg">BannerXpress</span>
+              <LayoutTemplate className="h-8 w-8 mr-2  text-[#000]" />
+              <span className="font-black text-[30px] text-[#000]">BannerXpress</span>
             </Link>
             <div className="ml-auto items-center gap-2 sm:gap-6 lg:flex hidden">
               {menuItems.map((item) => (
                 <Link
                   key={item.href}
-                  className="text-base font-medium hover:underline underline-offset-4"
+                  className="text-base font-semibold hover:underline underline-offset-4 text-[#000]"
                   href={item.href}
                 >
                   {item.label}
                 </Link>
               ))}
               <Link href="/sign-in">
-                <Button className="text-base font-medium hover:underline underline-offset-4">Sign In</Button>
+                <Button className="text-base font-semibold hover:underline underline-offset-4 text-[#000]">Sign In</Button>
               </Link>
               <Link href="/sign-up">
-                <Button className="text-base font-medium hover:underline underline-offset-4">Sign Up</Button>
+                <Button className="text-base font-semibold hover:underline underline-offset-4 text-[#000]" >Sign Up</Button>
               </Link>
               <Link href="/dashboard">
-                <Button variant="outline" size="sm">Dashboard</Button>
+                <Button className="text-[#000] text-base font-semibold ">Dashboard</Button>
               </Link>
             </div>
             <button
@@ -76,7 +76,7 @@ const Header: React.FC = () => {
                         transition={{ delay: index * 0.1 }}
                       >
                         <Link
-                          className="text-sm font-medium hover:underline underline-offset-4 py-2 block"
+                          className="text-sm font-medium hover:underline underline-offset-4 py-2 block text-[#000]"
                           href={item.href}
                           onClick={() => setIsOpen(false)}
                         >
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
                       transition={{ delay: menuItems.length * 0.1 }}
                     >
                       <Link href="/signin" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start">
+                        <Button className="w-full justify-start text-[#0000]">
                           Sign In
                         </Button>
                       </Link>
@@ -99,7 +99,7 @@ const Header: React.FC = () => {
                       transition={{ delay: (menuItems.length + 1) * 0.1 }}
                     >
                       <Link href="/signup" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start">
+                        <Button className="w-full justify-start text-[#000]">
                           Sign Up
                         </Button>
                       </Link>
@@ -111,7 +111,7 @@ const Header: React.FC = () => {
                       <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                         <Button
                           variant="outline"
-                          className="w-full justify-start text-[#03A9AC]"
+                          className="w-full justify-start text-[#000]"
                         >
                           Dashboard
                         </Button>

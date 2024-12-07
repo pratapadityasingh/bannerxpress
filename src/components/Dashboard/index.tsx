@@ -9,10 +9,10 @@ export default function DashboardPage() {
             <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <Card>
-                    <CardHeader>
-                        <CardTitle>My Wall Listings</CardTitle>
+                    <CardHeader className='px-4 py-1'>
+                        <CardTitle >My Wall Listings</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className='px-4 py-1'>
                         <p className="mb-4">You have 3 active wall listings.</p>
                         <Link href="/my-walls">
                             <Button>Manage Listings</Button>
@@ -20,10 +20,10 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader>
+                    <CardHeader className='px-4 py-1'>
                         <CardTitle>My Ad Campaigns</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className='px-4 py-1'>
                         <p className="mb-4">You have 2 ongoing ad campaigns.</p>
                         <Link href="/my-campaigns">
                             <Button>View Campaigns</Button>
@@ -31,10 +31,10 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader>
+                    <CardHeader className='px-4 py-1'>
                         <CardTitle>Messages</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className='px-4 py-1'>
                         <p className="mb-4">You have 5 unread messages.</p>
                         <Link href="/messages">
                             <Button>Check Messages</Button>
