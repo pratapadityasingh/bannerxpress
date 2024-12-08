@@ -29,7 +29,7 @@ const Homesection: React.FC = () => {
                     variants={fadeInUp}
                   >
                     <div className="space-y-2">
-                      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-[#000000]">
+                      <h1 className="text-3xl font-black tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-[#000000]">
                         Welcome to BannerXpress
                       </h1>
                       <p className="mx-auto max-w-[700px]  md:text-xl text-[#03A9AC]">

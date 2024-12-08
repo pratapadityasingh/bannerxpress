@@ -108,7 +108,7 @@ export default function SearchPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button onClick={() => setSearchQuery('')} className='bg-[#03A9AC] p-2 text-sm font-semibold'>Clear</Button>
+                <Button onClick={() => setSearchQuery('')} className='bg-[#03A9AC] p-2 text-[#fff] text-sm font-semibold'>Clear</Button>
             </div>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {filteredWallSpaces.map((wall) => (

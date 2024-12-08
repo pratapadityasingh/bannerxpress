@@ -76,7 +76,7 @@ const Header: React.FC = () => {
                         transition={{ delay: index * 0.1 }}
                       >
                         <Link
-                          className="text-sm font-medium hover:underline underline-offset-4 py-2 block text-[#000]"
+                          className="text-base font-medium hover:underline underline-offset-4 py-1 block text-[#000]"
                           href={item.href}
                           onClick={() => setIsOpen(false)}
                         >
@@ -88,8 +88,8 @@ const Header: React.FC = () => {
                       variants={fadeInUp}
                       transition={{ delay: menuItems.length * 0.1 }}
                     >
-                      <Link href="/signin" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start text-[#0000]">
+                      <Link href="/sign-in" onClick={() => setIsOpen(false)}>
+                        <Button className="w-full justify-start text-[#000] text-base pb-2">
                           Sign In
                         </Button>
                       </Link>
@@ -98,8 +98,8 @@ const Header: React.FC = () => {
                       variants={fadeInUp}
                       transition={{ delay: (menuItems.length + 1) * 0.1 }}
                     >
-                      <Link href="/signup" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start text-[#000]">
+                      <Link href="/sign-up" onClick={() => setIsOpen(false)}>
+                        <Button className="w-full justify-start text-[#000] text-base pb-2">
                           Sign Up
                         </Button>
                       </Link>
@@ -110,8 +110,8 @@ const Header: React.FC = () => {
                     >
                       <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                         <Button
-                          variant="outline"
-                          className="w-full justify-start text-[#000]"
+                        
+                          className="w-full justify-start text-[#000] text-base pb-2"
                         >
                           Dashboard
                         </Button>
