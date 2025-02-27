@@ -6,6 +6,10 @@ import { Label } from "@/components/Common-ui/label"
 import Link from "next/link"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import axios from "axios"
+import { toast } from "react-toastify"
+
+
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -18,11 +22,33 @@ export default function SignInPage() {
         password: '',
     }
 
-    const handleSubmit = (values: any, { setSubmitting }: any) => {
-        console.log(values)
-        // Handle form submission here
-        setSubmitting(false)
-    }
+    const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/login`, {
+            email: values.email,
+            password: values.password
+          });
+    
+          console.log("Signup successful:", response.data);
+          toast.success("Login successful");
+        } catch (error: any) {
+          console.error("Signup failed:", error);
+    
+          const errorMessage = error.response?.data?.message || "An error occurred";
+    
+            if (errorMessage.includes("Email already exists")) {
+            setErrors({ email: errorMessage });
+          } else {
+            setErrors({ general: errorMessage });
+          }
+        } finally {
+          setSubmitting(false);
+        }
+      };
+
+      const handleLogin = () => {
+        window.location.href = '/';
+      }
 
     return (
         <div className="container mx-auto px-4 py-8 h-screen">
@@ -60,6 +86,7 @@ export default function SignInPage() {
                                 <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                             </div>
                             <Button
+                                onClick={handleLogin}
                                 type="submit"
                                 className="bg-[#03A9AC] text-[#fff] font-semibold w-full p-3 rounded-md hover:bg-[#038f91] transition-colors duration-300"
                                 disabled={isSubmitting}

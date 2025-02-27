@@ -8,6 +8,10 @@ import Image from "next/image";
 import contactImg from "../../../../public/assets/contact.webp";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from "axios";
+import { toast } from "react-toastify";
+
+
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -24,10 +28,29 @@ export default function ContactPage() {
     message: '',
   };
 
-  const handleSubmit = (values: any, { setSubmitting }: any) => {
-    console.log(values);
-    // Handle form submission here
-    setSubmitting(false);
+  const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/contact/contact`, {
+        name: values.name,
+        email: values.email,
+        subject: values.subject,
+        message: values.message
+      });
+
+      console.log("Submit successful:", response.data);
+      toast.success("Message Sent Successfully");
+    } catch (error: any) {
+      console.error("Message failed:", error);
+
+      const errorMessage = error.response?.data?.message || "An error occurred";
+     if (errorMessage.includes("Email Incorrect")) {
+        setErrors({ email: errorMessage });
+      } else {
+        setErrors({ general: errorMessage });
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
