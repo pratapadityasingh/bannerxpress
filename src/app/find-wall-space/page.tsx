@@ -1,16 +1,13 @@
-import SearchPage from "@/components/Findwallspace";
-import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 
-import React from "react";
+import SearchPage from '@/components/Findwallspace'
+import React from 'react'
 
 const page = () => {
   return (
     <div>
-    <ProtectedRoute><SearchPage /></ProtectedRoute>
- 
-    
+          <SearchPage/>
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page

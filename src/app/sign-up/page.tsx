@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast } from 'react-toastify';
 
-import { useRouter } from 'next/navigation';
+
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required("Full name is required"),
@@ -26,7 +26,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SignUpPage() {
-   const router = useRouter();
   const initialValues = {
     username: "",
     email: "",
@@ -46,7 +45,6 @@ export default function SignUpPage() {
       });
 
       console.log("Signup successful:", response.data);
-      router.push("/sign-in")
       toast.success("Signup successful");
     } catch (error: any) {
       console.error("Signup failed:", error);
@@ -65,7 +63,9 @@ export default function SignUpPage() {
     }
   };
 
- 
+  const handleLogin = () => {
+    window.location.href = '/sign-in'; 
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 h-screen">
@@ -145,7 +145,7 @@ export default function SignUpPage() {
                 <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
               </div>
               <Button
-             
+              onClick={handleLogin}
                 type="submit"
                 className="bg-[#03A9AC] text-[#fff] font-semibold w-full p-3 rounded-md hover:bg-[#038f91] transition-colors duration-300"
                 disabled={isSubmitting}
