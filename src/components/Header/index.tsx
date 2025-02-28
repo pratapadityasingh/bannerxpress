@@ -6,6 +6,9 @@ import Link from "next/link";
 import { LayoutTemplate, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../Common-ui/button";
+// import { useAuthContext } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 
 const menuItems = [
   { href: "/find-wall-space", label: "Find Walls" },
@@ -22,6 +25,13 @@ const fadeInUp = {
 };
 
 const Header: React.FC = () => {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout(); // This clears the token and updates the auth state
+    router.push('/sign-in'); // Redirect to login page after logout
+  };
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -43,12 +53,24 @@ const Header: React.FC = () => {
                   {item.label}
                 </Link>
               ))}
-              <Link href="/sign-in">
+              {user? (
+          <>
+            <span>{user.username || 'User'}</span> 
+          
+            <Button  onClick={handleLogout}  className="text-base font-semibold hover:underline underline-offset-4 text-[#000]" > Logout</Button>
+          </>
+        ) : (
+          <>
+          <Link href="/sign-in">
                 <Button className="text-base font-semibold hover:underline underline-offset-4 text-[#000]">Sign In</Button>
               </Link>
               <Link href="/sign-up">
                 <Button className="text-base font-semibold hover:underline underline-offset-4 text-[#000]" >Sign Up</Button>
               </Link>
+          </>
+          
+        )}
+              
               <Link href="/dashboard">
                 <Button className="text-[#000] text-base font-semibold ">Dashboard</Button>
               </Link>
