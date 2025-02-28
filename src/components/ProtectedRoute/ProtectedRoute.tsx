@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }, [loading, user, router])
 
   if (loading || checking) {
-    return <div className="w-full flex justify-center items-center h-screen">Loading...</div>
+    return <div className="w-full flex justify-center items-center h-screen text-4xl">Loading...</div>
   }
 
   return <>{children}</>
