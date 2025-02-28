@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
 import { LayoutTemplate, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../Common-ui/button";
-// import { useAuthContext } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
+import { FaUserSecret } from "react-icons/fa";
 
 const menuItems = [
   { href: "/find-wall-space", label: "Find Walls" },
@@ -27,22 +26,27 @@ const fadeInUp = {
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
-    logout(); // This clears the token and updates the auth state
-    router.push('/sign-in'); // Redirect to login page after logout
+    logout();
+    router.push("/sign-in");
+    setIsOpen(false); // Mobile menu close on logout
   };
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <section className="border-b ">
-        <div className=" container mx-auto">
-          <header className="flex items-center  relative py-[10px] md:px-0 px-5">
+      <section className="border-b">
+        <div className="container mx-auto">
+          <header className="flex items-center relative py-[10px] md:px-0 px-5">
             <Link className="flex items-center justify-center" href="/">
-              <LayoutTemplate className="h-8 w-8 mr-2  text-[#000]" />
-              <span className="font-black text-[30px] text-[#000]">BannerXpress</span>
+              <LayoutTemplate className="h-8 w-8 mr-2 text-[#000]" />
+              <span className="font-black text-[30px] text-[#000]">
+                BannerXpress
+              </span>
             </Link>
+
+            {/* Desktop Menu */}
             <div className="ml-auto items-center gap-2 sm:gap-6 lg:flex hidden">
               {menuItems.map((item) => (
                 <Link
@@ -53,38 +57,55 @@ const Header: React.FC = () => {
                   {item.label}
                 </Link>
               ))}
-              {user? (
-          <>
-            <span>{user.username || 'User'}</span> 
-          
-            <Button  onClick={handleLogout}  className="text-base font-semibold hover:underline underline-offset-4 text-[#000]" > Logout</Button>
-          </>
-        ) : (
-          <>
-          <Link href="/sign-in">
-                <Button className="text-base font-semibold hover:underline underline-offset-4 text-[#000]">Sign In</Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button className="text-base font-semibold hover:underline underline-offset-4 text-[#000]" >Sign Up</Button>
-              </Link>
-          </>
-          
-        )}
-              
-              <Link href="/dashboard">
-                <Button className="text-[#000] text-base font-semibold ">Dashboard</Button>
-              </Link>
+              {/* <Link href="/dashboard">
+                <Button className="text-[#000] text-base font-semibold">
+                  Dashboard
+                </Button>
+              </Link> */}
+              {user ? (
+                <>
+                  <div className="flex items-center gap-1">
+                    <span className="text-[#03A9AC]">
+                      <FaUserSecret />
+                    </span>
+                    <span className="text-[#03A9AC] capitalize font-semibold truncate">
+                      {user.username || "User"}
+                    </span>
+                  </div>
+
+                  <Button
+                    onClick={handleLogout}
+                    className="text-base font-semibold border bg-red-600 py-1 px-3 text-white"
+                  >
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href="/sign-in">
+                    <div className="border border-[#000] rounded-lg py-1 px-3">
+                      <Button className="text-base font-semibold text-[#000]">
+                        Sign In
+                      </Button>
+                    </div>
+                  </Link>
+                </>
+              )}
             </div>
+
+            {/* Mobile Menu Button */}
             <button
               className="ml-auto lg:hidden"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X /> : <Menu />}
             </button>
+
+            {/* Mobile Menu */}
             <AnimatePresence>
               {isOpen && (
                 <motion.div
-                  className="absolute top-full left-0 right-0 bg-white shadow-md lg:hidden"
+                  className="absolute top-full left-0 right-0 bg-white shadow-md lg:hidden z-50"
                   initial="initial"
                   animate="animate"
                   exit="exit"
@@ -106,39 +127,32 @@ const Header: React.FC = () => {
                         </Link>
                       </motion.div>
                     ))}
-                    <motion.div
-                      variants={fadeInUp}
-                      transition={{ delay: menuItems.length * 0.1 }}
-                    >
-                      <Link href="/sign-in" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start text-[#000] text-base pb-2">
-                          Sign In
-                        </Button>
-                      </Link>
-                    </motion.div>
-                    <motion.div
-                      variants={fadeInUp}
-                      transition={{ delay: (menuItems.length + 1) * 0.1 }}
-                    >
-                      <Link href="/sign-up" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start text-[#000] text-base pb-2">
-                          Sign Up
-                        </Button>
-                      </Link>
-                    </motion.div>
-                    <motion.div
-                      variants={fadeInUp}
-                      transition={{ delay: (menuItems.length + 2) * 0.1 }}
-                    >
-                      <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+
+                   
+                    {user ? (
+                      <motion.div
+                        variants={fadeInUp}
+                        transition={{ delay: (menuItems.length + 1) * 0.1 }}
+                      >
                         <Button
-                        
-                          className="w-full justify-start text-[#000] text-base pb-2"
+                          onClick={handleLogout}
+                          className="justify-start text-white bg-red-600 text-base pb-2 p-2"
                         >
-                          Dashboard
+                          Logout
                         </Button>
-                      </Link>
-                    </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        variants={fadeInUp}
+                        transition={{ delay: (menuItems.length + 2) * 0.1 }}
+                      >
+                        <Link href="/sign-in" onClick={() => setIsOpen(false)}>
+                          <Button className="w-full justify-start text-[#000] text-base pb-2">
+                            Sign In
+                          </Button>
+                        </Link>
+                      </motion.div>
+                    )}
                   </nav>
                 </motion.div>
               )}
