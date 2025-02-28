@@ -1,5 +1,5 @@
 import Image from "next/image"
-
+import peoopeimg from "../../../public/assets/Userimg.png"
 export default function AboutPage() {
     return (
         <>
@@ -24,7 +24,7 @@ export default function AboutPage() {
                                 alt={`${role} portrait`}
                                 className="w-20 h-20 rounded mb-4"
                                 height="128"
-                                src={`/assets/userimg.png`}
+                                src={peoopeimg}
                                 style={{
                                     aspectRatio: "128/128",
                                     objectFit: "cover",
