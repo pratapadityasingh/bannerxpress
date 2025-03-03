@@ -59,7 +59,7 @@ const Header: React.FC = () => {
               ))}
               <Link href="/adcampaign">
                 <Button className="text-[#000] text-base font-semibold">
-                 AdCampaign
+                  AdCampaign
                 </Button>
               </Link>
               {user ? (
@@ -127,8 +127,12 @@ const Header: React.FC = () => {
                         </Link>
                       </motion.div>
                     ))}
+                    <Link href="/adcampaign">
+                      <Button className="text-[#000] text-base font-semibold">
+                        AdCampaign
+                      </Button>
+                    </Link>
 
-                   
                     {user ? (
                       <motion.div
                         variants={fadeInUp}
