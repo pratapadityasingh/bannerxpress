@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { Building2, Users, Award, ArrowRight, Globe, Zap } from "lucide-react";
-import PictureImg from "../../../public/assets/Userimg.png"
+import aayush from "../../../public/assets/aayush.webp"
+import aditya from "../../../public/assets/aditya.webp"
+import bharat from "../../../public/assets/bharat.webp"
+import parash from "../../../public/assets/parash.webp"
+import aayushi from "../../../public/assets/aayushi.webp"
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50">
@@ -128,45 +132,45 @@ export default function AboutPage() {
 
     <div className="grid md:grid-cols-5 gap-4">
       {[
-        {
-          role: "CEO & Founder",
-          name: "Sarah Johnson",
-          bio: "Former marketing executive with 15+ years of experience in outdoor advertising.",
-          image: PictureImg,
-        },
-        {
-          role: "CTO",
-          name: "Michael Chen",
-          bio: "Tech innovator with a background in marketplace platforms and geospatial technologies.",
-          image: PictureImg,
-        },
-        {
-          role: "COO",
-          name: "Priya Patel",
-          bio: "Operations expert who previously scaled three successful startups in the advertising space.",
-          image: PictureImg,
-        },
-        {
-            role: "COO",
-            name: "Priya Patel",
-            bio: "Operations expert who previously scaled three successful startups in the advertising space.",
-            image: PictureImg,
+         {
+            role: "Frontend Developer",
+            name: "Aayushi Mukati",
+            bio: "Creative frontend developer with expertise in crafting seamless user experiences using modern web technologies.",
+            image: aayushi,
           },
           {
-            role: "COO",
-            name: "Priya Patel",
-            bio: "Operations expert who previously scaled three successful startups in the advertising space.",
-            image: PictureImg,
+            role: "Frontend Developer",
+            name: "Aayush Jat",
+            bio: "Passionate about building dynamic and responsive UI with a strong focus on performance and accessibility.",
+            image: aayush,
+          },
+          {
+            role: "Backend Developer",
+            name: "Aditya Pratap",
+            bio: "Experienced backend developer specializing in scalable APIs, database optimization, and secure architectures.",
+            image: aditya,
+          },
+          {
+            role: "Database Management",
+            name: "Bharat Babriwal",
+            bio: "Database expert skilled in designing, optimizing, and maintaining efficient data structures for high-performance applications.",
+            image: bharat,
+          },
+          {
+            role: "Guide",
+            name: "Parash Bhanopiya",
+            bio: "Industry mentor with extensive knowledge in software development and guiding teams to achieve excellence.",
+            image: parash,
           }
       ].map((member, index) => (
         <div key={index} className="group">
           <div className="relative overflow-hidden rounded-xl mb-6 shadow-lg">
-            <div className="aspect-[4/4] bg-gradient-to-br from-blue-100 to-blue-200 relative">
+            <div className="aspect-[3/4] bg-gradient-to-br from-blue-100 to-blue-200 relative">
               <Image 
                 src={member.image}
                 alt={`${member.name} - ${member.role}`}
                 fill
-                className=""
+                className="object-cover"
                
                 priority
               />
