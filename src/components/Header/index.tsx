@@ -57,11 +57,11 @@ const Header: React.FC = () => {
                   {item.label}
                 </Link>
               ))}
-              {/* <Link href="/dashboard">
+              <Link href="/adcampaign">
                 <Button className="text-[#000] text-base font-semibold">
-                  Dashboard
+                 AdCampaign
                 </Button>
-              </Link> */}
+              </Link>
               {user ? (
                 <>
                   <div className="flex items-center gap-1">

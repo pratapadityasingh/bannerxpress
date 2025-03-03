@@ -24,3 +24,6 @@ body {
     max-width: 1240px !important;
   }
 }
+.btn-bg {
+  background: linear-gradient(180deg, #f9fcff 0%, #9cf 100%);
+}

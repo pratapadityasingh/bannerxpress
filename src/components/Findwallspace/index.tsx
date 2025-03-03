@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../Common-ui/card';
 import { Badge } from '../Common-ui/badge';
 import { BookCheck, Ratio } from 'lucide-react';
 
-
 interface WallSpace {
   _id: string;
   name?: string;
@@ -22,7 +21,6 @@ interface WallSpace {
   position?: string;
   period?: string;
 }
-
 
 const SkeletonCard = () => (
   <Card className="animate-pulse">
@@ -53,7 +51,9 @@ export default function SearchPage() {
   useEffect(() => {
     const fetchWallSpaces = async () => {
       try {
-        const response = await axios.get<WallSpace[]>('https://bannerxpress-server.onrender.com/api/product/products');
+        const response = await axios.get<WallSpace[]>(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product/products`
+        );
         console.log('API Response:', response.data);
         setWallSpaces(response.data);
         setLoading(false);
@@ -97,7 +97,6 @@ export default function SearchPage() {
       </div>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {loading ? (
-          
           Array(6).fill(0).map((_, index) => (
             <SkeletonCard key={index} />
           ))
@@ -122,6 +121,7 @@ export default function SearchPage() {
                   objectFit: "cover",
                 }}
                 width={300}
+                priority
               />
               <CardContent>
                 <CardHeader className='border-b-[1px] border-[#a3ebec] mb-2 pb-2'>

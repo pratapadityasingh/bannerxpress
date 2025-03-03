@@ -67,6 +67,7 @@ export default function ContactPage() {
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg"
+                priority
               />
             </div>
             <p className="text-lg font-semibold mt-2 text-[#000]">Get in Touch</p>

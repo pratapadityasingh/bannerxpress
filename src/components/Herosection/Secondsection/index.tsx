@@ -46,7 +46,7 @@ const Secondsection = () => {
                   <span>Cost-effective advertising solution</span>
                 </li>
               </ul>
-              <Link href="/create-camp">
+              <Link href="/adcampaign">
                 <Button  className="text-[#03A9AC] font-bold my-2 underline"> <CircleArrowUpRight className=" h-6 w-6" />
                   <span className="text-[#000] font-bold text-base ml-2">Your Ad Campaign</span></Button>
               </Link>
@@ -64,6 +64,7 @@ const Secondsection = () => {
                   className="w-full  object-cover"
                   width={500} // Set appropriate width
                   height={300} 
+                  priority
                 />
               </motion.div>
               <motion.div

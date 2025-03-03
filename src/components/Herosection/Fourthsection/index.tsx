@@ -48,6 +48,7 @@ const TemplateCard: React.FC<Template> = ({ title, description, imageUrl }) => (
             className="w-full h-60 object-cover"
             width={500} // Set appropriate width
             height={350} // Set appropriate height
+            priority
         />
         <div className="p-4">
             <h3 className="text-lg font-semibold mb-2">{title}</h3>
