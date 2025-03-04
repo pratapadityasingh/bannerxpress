@@ -1,20 +1,28 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import Image from 'next/image';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import axios from "axios";
 
-import { BookCheck, Ratio, MapPin, Users, Ban, Calendar, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/Common-ui/button';
-import { Badge } from '@/components/Common-ui/badge';
-import { Card, CardContent } from '@/components/Common-ui/card';
+import {
+  BookCheck,
+  Ratio,
+  MapPin,
+  Users,
+  Ban,
+  Calendar,
+  ArrowLeft,
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/Common-ui/button";
+import { Badge } from "@/components/Common-ui/badge";
+import { Card, CardContent } from "@/components/Common-ui/card";
 
 interface WallSpace {
   _id: string;
   name?: string;
-  url?: string[];  
+  url?: string[];
   address?: string;
   dimension?: string;
   rate?: number;
@@ -38,13 +46,13 @@ export default function WallDetailsPage() {
         const response = await axios.get<WallSpace>(
           `${process.env.NEXT_PUBLIC_API_URL}/api/product/product/${id}`
         );
-        console.log('API Response:', response.data);
+        console.log("API Response:", response.data);
         setWallSpace(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch wall space details');
+        setError("Failed to fetch wall space details");
         setLoading(false);
-        console.error('Fetch error:', err);
+        console.error("Fetch error:", err);
       }
     };
 
@@ -55,7 +63,7 @@ export default function WallDetailsPage() {
 
   const handleNextImage = () => {
     if (wallSpace?.url && wallSpace.url.length > 0) {
-      setCurrentImageIndex((prevIndex) => 
+      setCurrentImageIndex((prevIndex) =>
         prevIndex === wallSpace.url!.length - 1 ? 0 : prevIndex + 1
       );
     }
@@ -63,7 +71,7 @@ export default function WallDetailsPage() {
 
   const handlePrevImage = () => {
     if (wallSpace?.url && wallSpace.url.length > 0) {
-      setCurrentImageIndex((prevIndex) => 
+      setCurrentImageIndex((prevIndex) =>
         prevIndex === 0 ? wallSpace.url!.length - 1 : prevIndex - 1
       );
     }
@@ -105,23 +113,27 @@ export default function WallDetailsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Link href="/search">
-        <Button variant="outline" className="mb-6">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Search
+      <Link href="/find-wall-space">
+        <Button className="mb-6 p-3 border-[1px] border-[#03A9AC] text-[#03A9AC]">
+          <ArrowLeft className="mr-2 h-4 w-4 text-[#03A9AC] " /> Back to Search
         </Button>
       </Link>
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="relative">
           <div className="absolute top-4 left-0 z-10">
-            <Badge 
-              variant={(wallSpace.period?.toLowerCase() || '').includes('available') ? 'default' : 'secondary'} 
+            <Badge
+              variant={
+                (wallSpace.period?.toLowerCase() || "").includes("available")
+                  ? "default"
+                  : "secondary"
+              }
               className="text-base text-[#fff] bg-[#01796F] rounded-l-[0]"
             >
-              {wallSpace.period || 'N/A'}
+              {wallSpace.period || "N/A"}
             </Badge>
           </div>
-          
+
           <div className="relative h-[400px] rounded-lg overflow-hidden">
             {wallSpace.url && wallSpace.url.length > 0 ? (
               <>
@@ -132,35 +144,37 @@ export default function WallDetailsPage() {
                   fill
                   priority
                 />
-                
+
                 {wallSpace.url.length > 1 && (
                   <div className="absolute inset-0 flex items-center justify-between px-4">
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="bg-white/80 rounded-full" 
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="bg-white/80 rounded-full"
                       onClick={handlePrevImage}
                     >
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="bg-white/80 rounded-full" 
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="bg-white/80 rounded-full"
                       onClick={handleNextImage}
                     >
                       <ArrowLeft className="h-4 w-4 transform rotate-180" />
                     </Button>
                   </div>
                 )}
-                
+
                 {wallSpace.url.length > 1 && (
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
                     {wallSpace.url.map((_, index) => (
                       <button
                         key={index}
                         className={`w-2 h-2 rounded-full ${
-                          index === currentImageIndex ? 'bg-[#03A9AC]' : 'bg-white/60'
+                          index === currentImageIndex
+                            ? "bg-[#03A9AC]"
+                            : "bg-white/60"
                         }`}
                         onClick={() => setCurrentImageIndex(index)}
                       />
@@ -176,68 +190,75 @@ export default function WallDetailsPage() {
           </div>
         </div>
 
-        <Card>
-          <CardContent className="pt-6">
-            <h1 className="text-3xl text-[#03A9AC] font-black mb-2">{wallSpace.name || 'Unknown Type'}</h1>
-            
-            <div className="flex items-center gap-2 mb-4">
-              <MapPin className="text-[#03A9AC] h-5 w-5" />
-              <p className="text-lg">{wallSpace.address || 'Unknown Address'}</p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2">
-                <Ratio className="text-[#03A9AC] h-5 w-5" />
-                <div>
-                  <p className="text-sm text-gray-500">Dimensions</p>
-                  <p className="font-medium">{wallSpace.dimension || 'N/A'}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <BookCheck className="text-[#03A9AC] h-5 w-5" />
-                <div>
-                  <p className="text-sm text-gray-500">Position</p>
-                  <p className="font-medium">{wallSpace.position || 'N/A'}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <Users className="text-[#03A9AC] h-5 w-5" />
-                <div>
-                  <p className="text-sm text-gray-500">Crowded</p>
-                  <p className="font-medium">{wallSpace.crowded || 'N/A'}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <Calendar className="text-[#03A9AC] h-5 w-5" />
-                <div>
-                  <p className="text-sm text-gray-500">Rate</p>
-                  <p className="font-medium">₹{wallSpace.rate || 'N/A'}</p>
-                </div>
+        <CardContent className="p-6 shadow-xl rounded-lg">
+          <h1 className="text-3xl text-[#03A9AC] font-black mb-2">
+            {wallSpace.name || "Unknown Type"}
+          </h1>
+
+          <div className="flex items-center gap-2 mb-4">
+            <MapPin className="text-[#03A9AC] h-5 w-5" />
+            <p className="text-lg">{wallSpace.address || "Unknown Address"}</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="flex items-center gap-2">
+              <Ratio className="text-[#03A9AC] h-5 w-5" />
+              <div>
+                <p className="text-sm text-gray-500">Dimensions</p>
+                <p className="font-medium">{wallSpace.dimension || "N/A"}</p>
               </div>
             </div>
-            
+
+            <div className="flex items-center gap-2">
+              <BookCheck className="text-[#03A9AC] h-5 w-5" />
+              <div>
+                <p className="text-sm text-gray-500">Position</p>
+                <p className="font-medium">{wallSpace.position || "N/A"}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Users className="text-[#03A9AC] h-5 w-5" />
+              <div>
+                <p className="text-sm text-gray-500">Crowded</p>
+                <p className="font-medium">{wallSpace.crowded || "N/A"}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Calendar className="text-[#03A9AC] h-5 w-5" />
+              <div>
+                <p className="text-sm text-gray-500">Rate</p>
+                <p className="font-medium">₹{wallSpace.rate || "N/A"}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <div className="flex items-start gap-2 mb-2">
+              <Ban className="text-[#03A9AC] h-5 w-5 mt-0.5" />
+              <div>
+                <p className="text-sm text-gray-500">Restrictions</p>
+                <p className="font-medium">
+                  {wallSpace.restrictions?.join(", ") || "None"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Button className=" bg-[#03A9AC] text-white p-3 w-[200px]">
+            Book This Wall Space
+          </Button>
+        </CardContent>
+      </div>
+      <div className="my-5">
+        <Card className="p-3 bg-[#fff]  shadow-xl">
+          {wallSpace.description && (
             <div className="mb-6">
-              <div className="flex items-start gap-2 mb-2">
-                <Ban className="text-[#03A9AC] h-5 w-5 mt-0.5" />
-                <div>
-                  <p className="text-sm text-gray-500">Restrictions</p>
-                  <p className="font-medium">{wallSpace.restrictions?.join(', ') || 'None'}</p>
-                </div>
-              </div>
+              <h2 className="text-xl font-bold mb-2">Description</h2>
+              <p className="text-gray-700">{wallSpace.description}</p>
             </div>
-            
-            {wallSpace.description && (
-              <div className="mb-6">
-                <h2 className="text-xl font-bold mb-2">Description</h2>
-                <p className="text-gray-700">{wallSpace.description}</p>
-              </div>
-            )}
-            
-            <Button className="w-full bg-[#03A9AC] text-white">Book This Wall Space</Button>
-          </CardContent>
+          )}
         </Card>
       </div>
     </div>
