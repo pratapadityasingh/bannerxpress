@@ -43,9 +43,7 @@ export default function WallDetailsPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const fetchWallSpace = useCallback(async () => {
-    console.log("Params:", params);
-    console.log("Pathname:", pathname);
-    console.log("Extracted ID:", id);
+   
 
     if (!id) {
       setError("No wall space ID provided");
@@ -54,12 +52,11 @@ export default function WallDetailsPage() {
     }
 
     try {
-      console.log("Fetching wall space with ID:", id);
-      console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+    
       const response = await axios.get<WallSpace>(
         `${process.env.NEXT_PUBLIC_API_URL}/api/product/product/${id}`
       );
-      console.log("API Response:", response.data);
+    
       setWallSpace(response.data);
       setLoading(false);
     } catch (err: any) {
