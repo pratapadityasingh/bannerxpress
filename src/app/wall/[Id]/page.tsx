@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation"; 
 import Image from "next/image";
 import axios from "axios";
 
@@ -34,13 +34,19 @@ interface WallSpace {
 }
 
 export default function WallDetailsPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const pathname = usePathname(); // Added to extract ID from URL if needed
+  const id = params?.id || (pathname ? pathname.split("/").pop() : null); // Fallback to pathname
   const [wallSpace, setWallSpace] = useState<WallSpace | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const fetchWallSpace = useCallback(async () => {
+    console.log("Params:", params);
+    console.log("Pathname:", pathname);
+    console.log("Extracted ID:", id);
+
     if (!id) {
       setError("No wall space ID provided");
       setLoading(false);
@@ -154,7 +160,9 @@ export default function WallDetailsPage() {
                 />
 
                 {wallSpace.url.length > 1 && (
-                  <div className="absolute inset-0 flex items-center justify-between px-4">
+                  <div className 
+   
+="absolute inset-0 flex items-center justify-between px-4">
                     <Button
                       variant="outline"
                       size="icon"
