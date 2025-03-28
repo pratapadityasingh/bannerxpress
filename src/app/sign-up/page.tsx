@@ -8,25 +8,25 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from 'react-toastify';
-
 import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react"; 
 
 const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Full name is required"),
+  username: Yup.string().required("Full name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+  password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm password is required"),
-  phone: Yup.string()
-    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-    .required("Phone number is required"),
+  phone: Yup.string().matches(/^\d{10}$/, "Phone number must be exactly 10 digits").required("Phone number is required"),
 });
 
 export default function SignUpPage() {
-   const router = useRouter();
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const initialValues = {
     username: "",
     email: "",
@@ -37,35 +37,20 @@ export default function SignUpPage() {
 
   const handleSubmit = async (values: any, { setSubmitting, setErrors }: any) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/register`, {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-        phone: values.phone,
-        confirmPassword: values.confirmPassword,
-      });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/register`, values);
 
-      console.log("Signup successful:", response.data);
-      router.push("/sign-in")
-      toast.success("Signup successful");
+      toast.success("Signup successful! Redirecting...");
+      setTimeout(() => {
+        router.push("/sign-in");
+      }, 1500);
     } catch (error: any) {
-      console.error("Signup failed:", error);
-
       const errorMessage = error.response?.data?.message || "An error occurred";
-
-      if (errorMessage.includes("Passwords do not match")) {
-        setErrors({ confirmPassword: errorMessage });
-      } else if (errorMessage.includes("Email already exists")) {
-        setErrors({ email: errorMessage });
-      } else {
-        setErrors({ general: errorMessage });
-      }
+      setErrors({ email: errorMessage.includes("Email already exists") ? errorMessage : undefined });
+      toast.error(errorMessage);
     } finally {
       setSubmitting(false);
     }
   };
-
- 
 
   return (
     <div className="container mx-auto px-4 py-8 h-screen">
@@ -75,86 +60,76 @@ export default function SignUpPage() {
           {({ isSubmitting }) => (
             <Form className="space-y-4">
               <div>
-                <Label htmlFor="username" className="text-[#000] text-base">
-                  Full Name
-                </Label>
-                <Field
-                  as={Input}
-                  id="username"
-                  name="username"
-                  type="text"
-                  placeholder="Enter your full name"
-                  className="border-[#03A9AC] w-full"
-                />
+                <Label htmlFor="username">Full Name</Label>
+                <Field as={Input} id="username" name="username" type="text" placeholder="Enter your full name" />
                 <ErrorMessage name="username" component="div" className="text-red-500 text-sm mt-1" />
               </div>
+
               <div>
-                <Label htmlFor="email" className="text-[#000] text-base">
-                  Email
-                </Label>
-                <Field
-                  as={Input}
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="border-[#03A9AC] w-full"
-                />
+                <Label htmlFor="email">Email</Label>
+                <Field as={Input} id="email" name="email" type="email" placeholder="Enter your email" />
                 <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
               </div>
-              <div>
-                <Label htmlFor="password" className="text-[#000] text-base">
-                  Password
-                </Label>
-                <Field
-                  as={Input}
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Create a password"
-                  className="border-[#03A9AC] w-full"
-                />
+
+              {/* Password Field with Toggle */}
+              <div className="relative">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Field
+                    as={Input}
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a password"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-600"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
                 <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
               </div>
-              <div>
-                <Label htmlFor="confirmPassword" className="text-[#000] text-base">
-                  Confirm Password
-                </Label>
-                <Field
-                  as={Input}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Confirm your password"
-                  className="border-[#03A9AC] w-full"
-                />
+
+              {/* Confirm Password Field with Toggle */}
+              <div className="relative">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <div className="relative">
+                  <Field
+                    as={Input}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm your password"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-600"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
                 <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
               </div>
+
               <div>
-                <Label htmlFor="phone" className="text-[#000] text-base">
-                  Phone Number
-                </Label>
-                <Field
-                  as={Input}
-                  id="phone"
-                  name="phone"
-                  type="text"
-                  placeholder="Enter your phone number"
-                  className="border-[#03A9AC] w-full"
-                />
+                <Label htmlFor="phone">Phone Number</Label>
+                <Field as={Input} id="phone" name="phone" type="text" placeholder="Enter your phone number" />
                 <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
               </div>
-              <Button
-             
-                type="submit"
-                className="bg-[#03A9AC] text-[#fff] font-semibold w-full p-3 rounded-md hover:bg-[#038f91] transition-colors duration-300"
-                disabled={isSubmitting}
-              >
+
+              <Button type="submit" className="w-full bg-[#03A9AC] text-white p-3 rounded-md hover:bg-[#038f91]" disabled={isSubmitting}>
                 Sign Up
               </Button>
             </Form>
           )}
         </Formik>
+
         <p className="mt-4 text-center text-sm">
           Already have an account?{" "}
           <Link href="/sign-in" className="text-[#03A9AC] hover:underline">
