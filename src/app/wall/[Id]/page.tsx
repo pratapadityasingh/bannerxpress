@@ -44,7 +44,7 @@ export default function WallDetailsPage() {
     const fetchWallSpace = async () => {
       try {
         const response = await axios.get<WallSpace>(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/product/product/${id}`
+          `${process.env.NEXT_APP_API_URL}/api/product/product/${id}`
         );
         console.log("API Response:", response.data);
         setWallSpace(response.data);
@@ -112,7 +112,7 @@ export default function WallDetailsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ">
       <Link href="/find-wall-space">
         <Button className="mb-6 p-3 border-[1px] border-[#03A9AC] text-[#03A9AC]">
           <ArrowLeft className="mr-2 h-4 w-4 text-[#03A9AC] " /> Back to Search
