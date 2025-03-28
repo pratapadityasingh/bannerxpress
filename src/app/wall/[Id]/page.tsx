@@ -41,7 +41,15 @@ export default function WallDetailsPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const fetchWallSpace = useCallback(async () => {
+    if (!id) {
+      setError("No wall space ID provided");
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log("Fetching wall space with ID:", id);
+      console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
       const response = await axios.get<WallSpace>(
         `${process.env.NEXT_PUBLIC_API_URL}/api/product/product/${id}`
       );
@@ -49,19 +57,17 @@ export default function WallDetailsPage() {
       setWallSpace(response.data);
       setLoading(false);
     } catch (err: any) {
+      console.error("Fetch error:", err);
       setError(
         err.response?.data?.message || "Failed to fetch wall space details"
       );
       setLoading(false);
-      console.error("Fetch error:", err);
     }
   }, [id]);
 
   useEffect(() => {
-    if (id) {
-      fetchWallSpace();
-    }
-  }, [id, fetchWallSpace]);
+    fetchWallSpace();
+  }, [fetchWallSpace]);
 
   const handleNextImage = () => {
     if (Array.isArray(wallSpace?.url) && wallSpace.url.length > 0) {
@@ -114,10 +120,10 @@ export default function WallDetailsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
+    <div className="container mx-auto px-4 py-8">
       <Link href="/find-wall-space">
         <Button className="mb-6 p-3 border-[1px] border-[#03A9AC] text-[#03A9AC]">
-          <ArrowLeft className="mr-2 h-4 w-4 text-[#03A9AC] " /> Back to Search
+          <ArrowLeft className="mr-2 h-4 w-4 text-[#03A9AC]" /> Back to Search
         </Button>
       </Link>
 
@@ -248,7 +254,7 @@ export default function WallDetailsPage() {
             </div>
           </div>
 
-          <Button className=" bg-[#03A9AC] text-white p-3 w-[200px] hover:bg-[#028E8F] transition-all">
+          <Button className="bg-[#03A9AC] text-white p-3 w-[200px] hover:bg-[#028E8F] transition-all">
             Book This Wall Space
           </Button>
         </CardContent>
