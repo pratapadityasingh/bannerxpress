@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
@@ -40,29 +40,31 @@ export default function WallDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchWallSpace = async () => {
-      try {
-        const response = await axios.get<WallSpace>(
-          `${process.env.NEXT_APP_API_URL}/api/product/product/${id}`
-        );
-        console.log("API Response:", response.data);
-        setWallSpace(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch wall space details");
-        setLoading(false);
-        console.error("Fetch error:", err);
-      }
-    };
-
-    if (id) {
-      fetchWallSpace();
+  const fetchWallSpace = useCallback(async () => {
+    try {
+      const response = await axios.get<WallSpace>(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/product/${id}`
+      );
+      console.log("API Response:", response.data);
+      setWallSpace(response.data);
+      setLoading(false);
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || "Failed to fetch wall space details"
+      );
+      setLoading(false);
+      console.error("Fetch error:", err);
     }
   }, [id]);
 
+  useEffect(() => {
+    if (id) {
+      fetchWallSpace();
+    }
+  }, [id, fetchWallSpace]);
+
   const handleNextImage = () => {
-    if (wallSpace?.url && wallSpace.url.length > 0) {
+    if (Array.isArray(wallSpace?.url) && wallSpace.url.length > 0) {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === wallSpace.url!.length - 1 ? 0 : prevIndex + 1
       );
@@ -70,7 +72,7 @@ export default function WallDetailsPage() {
   };
 
   const handlePrevImage = () => {
-    if (wallSpace?.url && wallSpace.url.length > 0) {
+    if (Array.isArray(wallSpace?.url) && wallSpace.url.length > 0) {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === 0 ? wallSpace.url!.length - 1 : prevIndex - 1
       );
@@ -135,7 +137,7 @@ export default function WallDetailsPage() {
           </div>
 
           <div className="relative h-[400px] rounded-lg overflow-hidden">
-            {wallSpace.url && wallSpace.url.length > 0 ? (
+            {Array.isArray(wallSpace?.url) && wallSpace.url.length > 0 ? (
               <>
                 <Image
                   alt={`Wall Space ${wallSpace._id}`}
@@ -246,13 +248,14 @@ export default function WallDetailsPage() {
             </div>
           </div>
 
-          <Button className=" bg-[#03A9AC] text-white p-3 w-[200px]">
+          <Button className=" bg-[#03A9AC] text-white p-3 w-[200px] hover:bg-[#028E8F] transition-all">
             Book This Wall Space
           </Button>
         </CardContent>
       </div>
+
       <div className="my-5">
-        <Card className="p-3 bg-[#fff]  shadow-xl">
+        <Card className="p-3 bg-[#fff] shadow-xl">
           {wallSpace.description && (
             <div className="mb-6">
               <h2 className="text-xl font-bold mb-2">Description</h2>
